@@ -1,35 +1,49 @@
-import { Elysia, t } from 'elysia'
-import getChargingStation from './routes/chargingStation'
-import user from './routes/user'
-import car from './routes/car'
-import userCar from './routes/userCar'
+import { convertKeys } from "./utils/convertKeys";
+import { saveToJson, getDataById } from "./utils/saveTofile";
+import { Client } from 'node-appwrite';
 
-// Definisi interface untuk User
-interface User {
-  id: number
-  name: string
-  email: string
-}
-
-// Membuat instance dari Elysia
-export const app = new Elysia()
-
-// Menambahkan routes yang ada
-getChargingStation(app)
-user(app)
-car(app)
-userCar(app)
-
-// Fungsi handler untuk Appwrite yang akan menangani request
+// Fungsi utama handler untuk serverless Appwrite
 export default async function handler({ req, res, log, error }: any) {
-  try {
-    // Menggunakan app.handle untuk menangani request yang datang
-    const result = await app.handle(req)
+    // Mengambil environment variables yang dibutuhkan
+    const endpoint = Bun.env.OPEN_CHARGE_MAP_ENDPOINT || process.env.OPEN_CHARGE_MAP_ENDPOINT || '';
+    const apiKey = Bun.env.OPEN_CHARGE_MAP_X_API_KEY || process.env.OPEN_CHARGE_MAP_X_API_KEY || '';
 
-    // Mengirim response yang dihasilkan oleh app.handle
-    return res.json(result)
-  } catch (err) {
-    error(`Error processing request: ${err.message}`)
-    return res.json({ error: "Something went wrong" })
-  }
+    if (!endpoint || !apiKey) {
+        return res.json({ message: 'Missing API endpoint or key', code: 500 });
+    }
+
+    try {
+        // Mengambil data dari API Open Charge Map
+        const response = await fetch(endpoint, {
+            method: 'GET',
+            headers: {
+                'x-api-key': apiKey,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        // Memproses data yang diterima
+        const data = await response.json();
+        const filteredData = convertKeys(data);
+        const mappedData = filteredData.map((item: any) => ({
+            uuid: item.uuid,
+            usageCost: item.usagecost,
+            addressInfo: item.addressinfo,
+            connections: item.connections,
+        }));
+
+        // Menyimpan data ke file JSON (atau bisa juga ke Appwrite Database)
+        saveToJson(mappedData);
+
+        // Mengirim respon sukses
+        return res.json({
+            message: 'Success get charging station list',
+            code: 200,
+            data: mappedData,
+        });
+    } catch (err: any) {
+        // Mengirim respon kesalahan
+        error(`Error fetching charging station list: ${err.message}`);
+        return res.json({ message: 'Failed to get charging station list', code: 400, error: err.message });
+    }
 }
