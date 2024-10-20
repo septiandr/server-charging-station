@@ -1,9 +1,10 @@
 import { Elysia, t } from 'elysia'
-import getChargingStation from './routes/chargingStation.ts'
-import user from './routes/user.ts'
-import car from './routes/car.ts'
-import userCar from './routes/userCar.ts'
-import userFavorite from './routes/userFavorite.ts'
+import getChargingStation from './routes/chargingStation.js'
+import user from './routes/user.js'
+import car from './routes/car.js'
+import userCar from './routes/userCar.js'
+import userFavorite from './routes/userFavorite.js'
+
 interface User {
   id: number
   name: string

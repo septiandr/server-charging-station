@@ -1,6 +1,6 @@
-import { convertKeys } from "../utils/convertKeys.ts";
+import { convertKeys } from "../utils/convertKeys.js";
 import { Elysia } from 'elysia';
-import { saveToJson, getDataById } from "../utils/saveTofile.ts";
+import { saveToJson } from "../utils/saveTofile.js";
 
 const getChargingStation = (app: Elysia) => {
     app.get('/list-charging-station', async () => {
