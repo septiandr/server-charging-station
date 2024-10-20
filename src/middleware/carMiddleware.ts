@@ -1,5 +1,5 @@
 import { Elysia } from 'elysia';
-import { databases } from '../config/db';
+import { databases } from '../config/db.ts';
 import { ID, Query } from 'node-appwrite';
 
 const carCollectionID = 'car'

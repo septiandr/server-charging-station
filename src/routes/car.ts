@@ -1,5 +1,5 @@
 import { Elysia } from 'elysia';
-import { addNewCar, deleteCar, getAllCar } from '../middleware/carMiddleware';
+import { addNewCar, deleteCar, getAllCar } from '../middleware/carMiddleware.ts';
 
 
 const car = (app: Elysia) => {

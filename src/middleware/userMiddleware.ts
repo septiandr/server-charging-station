@@ -1,7 +1,7 @@
 import { Elysia } from 'elysia';
-import { dbUser } from '../config/db';
+import { dbUser } from '../config/db.ts';
 import { ID, Query } from 'node-appwrite';
-import { verifyPassword } from '../utils/verifyPassword';
+import { verifyPassword } from '../utils/verifyPassword.ts';
 
 type User = {
     email: string,

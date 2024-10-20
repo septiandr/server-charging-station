@@ -1,5 +1,5 @@
 import { Elysia } from 'elysia';
-import { createUser, deleteUser, getAllUser, login, logout } from '../middleware/userMiddleware';
+import { createUser, deleteUser, getAllUser, login, logout } from '../middleware/userMiddleware.ts';
 
 
 const user = (app: Elysia) => {

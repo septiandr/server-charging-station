@@ -4,7 +4,7 @@ import {
     deleteFavorite, 
     getFavoriteByUserId, 
     getListAllFavorite 
-} from '../middleware/favoriteMiddleware'
+} from '../middleware/favoriteMiddleware.ts'
 
 
 const userFavorite = (app: Elysia) => {
