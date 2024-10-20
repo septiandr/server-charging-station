@@ -4,7 +4,6 @@ import user from './routes/user.ts'
 import car from './routes/car.ts'
 import userCar from './routes/userCar.ts'
 import userFavorite from './routes/userFavorite.ts'
-// Definisi interface untuk User
 interface User {
   id: number
   name: string
