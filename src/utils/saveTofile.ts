@@ -25,7 +25,7 @@ export const getDataById = async (id : string) => {
       console.log("🚀 ~ getDataById ~ data:", data)
   
       // Filter data berdasarkan id
-      const result = data.find(item => item.uuid === id);
+      const result = data.find((item: any)=> item.uuid === id);
       console.log("🚀 ~ getDataById ~ result:", result)
   
       return result;
